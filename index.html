@@ -1,93 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body{
-            font-family:Arial,sans-serif;
-            font-color: white;
-            background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS36mwMMT8-nJDgFFO9mMy41-yOxyQApeSncQ&s');
-            background-size: cover;
-            background-position: center;
-        }
-        .container{
-    
-            max-width: 400px;
-            margin: auto;
-            background-color: rgb(137, 89, 160);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgb(63, 28, 100);
-        }
-        h1{
-            text-align: center;
-            color: #f8efef;
-        }
-        .form-group{
-            margin-bottom: 5px;
-        
-        }
-        label{
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="number"],input[type="text"]{
-            width: 80%;
-            padding: 8px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="sumbit"]{
-            width: 150px;
-            height: 50px;
-            border-radius: 25px;
-            border: none;
-            background-color: #4caf50;
-
-            font-size: 16px;
-           
-        }
-        input[type="submit"]:single-button{
-            background-color: #10ec1b;
-        }
-        .result{
-            margin-top: 20px;
-            background-color: #f9f9f9;
-            padding: 10px;
-            border:1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sadqah Calculator – Zakat</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    
-    <div class="container">
-        <h1>Zakat Calculator</h1>
-        <form id="zakatForm" action="#" method="post">
-            <div class="form-group">
-                <label for="goldValue">Value of gold(in grams):</label>
-                <input type="number" id="goldValue" name="goldValue" required>
-            </div>
-            <div class="form-group">
-                <label for="silverValue">Value of silver(in grams):</label>
-                <input type="number" id="silverValue" name="silverValue" required>
-            </div>
-            <div class="form-group">
-                <label for="cashAmount">Cash amount:</label>
-                <input type="number" id="cashAmount" name="cashAmount" required>
-            </div>
-            <center>
-            <input type="submit" value="Calculate Zakat">
-        </center>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">🕌</div>
+      <div>
+        <h1>Sadqah Calculator</h1>
+        <p class="tagline">Simple, transparent & accurate Zakat calculation</p>
+      </div>
+    </div>
+  </header>
 
-        </form>
-        <div id="result" class="result"></div>
-        <script src="script.js"></script>
+  <main class="container">
+    <section class="intro card">
+      <h2>About</h2>
+      <p>
+        Sadqah Calculator is a simple and accurate tool designed to help Muslims easily calculate their annual Zakat obligations based on Islamic principles.
+      </p>
+      <ul class="features">
+        <li>💵 <strong>Cash Calculation</strong> – Easily compute Zakat on your savings and liquid assets.</li>
+        <li>🪙 <strong>Gold Calculation</strong> – Determine Zakat due on your gold holdings.</li>
+        <li>🥈 <strong>Silver Calculation</strong> – Calculate Zakat on silver wealth.</li>
+        <li>📊 <strong>Transparent &amp; Accurate</strong> – Built to ensure clear and trustworthy results.</li>
+        <li>🌍 <strong>User-Friendly Interface</strong> – Clean design for quick and easy usage.</li>
+      </ul>
+    </section>
 
-</div>
+    <section class="calculator card" aria-labelledby="calcHeading">
+      <h2 id="calcHeading">Zakat Calculator</h2>
+
+      <form id="zakatForm" novalidate>
+        <div class="grid">
+          <label class="field">
+            <span>Cash (₹)</span>
+            <input type="number" inputmode="decimal" step="0.01" min="0" id="cash" placeholder="e.g., 50000" />
+          </label>
+
+          <label class="field">
+            <span>Gold (₹)</span>
+            <input type="number" inputmode="decimal" step="0.01" min="0" id="gold" placeholder="e.g., 120000" />
+          </label>
+
+          <label class="field">
+            <span>Silver (₹)</span>
+            <input type="number" inputmode="decimal" step="0.01" min="0" id="silver" placeholder="e.g., 10000" />
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="calculate" class="btn primary">Calculate</button>
+          <button type="reset" class="btn">Reset</button>
+        </div>
+      </form>
+
+      <div class="result" id="result" aria-live="polite" aria-atomic="true">
+        <div class="summary">
+          <div>
+            <small>Total Wealth (₹)</small>
+            <div class="value" id="totalWealth">0</div>
+          </div>
+          <div>
+            <small>Rate</small>
+            <div class="value">2.5%</div>
+          </div>
+          <div>
+            <small>Zakat Due (₹)</small>
+            <div class="value highlight" id="zakatDue">0</div>
+          </div>
+        </div>
+
+        <details class="breakdown">
+          <summary>See breakdown</summary>
+          <ul>
+            <li>Cash: <span id="bCash">0</span></li>
+            <li>Gold: <span id="bGold">0</span></li>
+            <li>Silver: <span id="bSilver">0</span></li>
+            <li>Formula: (Cash + Gold + Silver) × <code>0.025</code></li>
+          </ul>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Sadqah. All rights reserved.</p>
+  </footer>
+
+  <script>
+   
+    const ZAKAT_RATE = 0.025; 
+
+    // ====== Helpers ======
+    const Rs = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+    const num = v => {
+      const n = parseFloat(v);
+      return Number.isFinite(n) && n >= 0 ? n : 0;
+    };
+
+    // ====== Elements ======
+    const cashEl   = document.getElementById('cash');
+    const goldEl   = document.getElementById('gold');
+    const silverEl = document.getElementById('silver');
+
+    const totalWealthEl = document.getElementById('totalWealth');
+    const zakatDueEl    = document.getElementById('zakatDue');
+
+    const bCashEl  = document.getElementById('bCash');
+    const bGoldEl  = document.getElementById('bGold');
+    const bSilverEl= document.getElementById('bSilver');
+
+    const calcBtn  = document.getElementById('calculate');
+    const form     = document.getElementById('zakatForm');
+
+    // ====== Core Calculation ======
+    function calculate() {
+      const cash   = num(cashEl.value);
+      const gold   = num(goldEl.value);
+      const silver = num(silverEl.value);
+
+      const total  = cash + gold + silver;
+      const zakat  = total * ZAKAT_RATE;
+
+      // Render
+      totalWealthEl.textContent = Rs.format(total);
+      zakatDueEl.textContent    = Rs.format(zakat);
+
+      bCashEl.textContent   = Rs.format(cash);
+      bGoldEl.textContent   = Rs.format(gold);
+      bSilverEl.textContent = Rs.format(silver);
+    }
+
+    // Calculate on click
+    calcBtn.addEventListener('click', calculate);
+
+    // Also recalc on Enter key anywhere in the form
+    form.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        calculate();
+      }
+    });
+
+    // Reset visuals
+    form.addEventListener('reset', () => {
+      setTimeout(() => {
+        totalWealthEl.textContent = Rs.format(0);
+        zakatDueEl.textContent = Rs.format(0);
+        bCashEl.textContent = bGoldEl.textContent = bSilverEl.textContent = Rs.format(0);
+      }, 0);
+    });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
